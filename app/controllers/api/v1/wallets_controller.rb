@@ -8,7 +8,7 @@ class Api::V1::WalletsController < Api::V1::BaseController
   end
 
   def transfer
-    wallets = Api::V1::TransferBalanceService.call(current_user: current_user, params: params)
+    wallets = Api::V1::TransferBalanceService.call(current_user:, params:)
 
     render_json wallets
   end

@@ -13,6 +13,14 @@ module ApiRoutes
             end
           end
 
+          resources :latest_stock_prices, only: [] do
+            collection do
+              get :price
+              get :prices
+              get :price_all
+            end
+          end
+
           # HealthChecks
           get :ping, to: "health_checks#ping"
         end

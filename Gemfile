@@ -10,6 +10,7 @@ gem "bcrypt"
 gem "bootsnap", require: false
 gem "config"
 gem "figaro"
+gem "httparty"
 gem "jwt"
 gem "pagy"
 gem "paranoia"
@@ -32,6 +33,7 @@ group :development do
   gem "listen"
   gem "rubocop", require: false
   gem "rubocop-performance", require: false
+  gem "rubocop-rspec", require: false
   gem "spring"
   gem "spring-watcher-listen"
 end

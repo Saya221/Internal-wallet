@@ -3,10 +3,9 @@
 class Api::V1::TransferBalanceService < Api::V1::BaseService
   def initialize(args = {})
     @params = args[:params]
-    @current_user_id = args[:current_user_id]
+    @current_user = args[:current_user]
     @recipient_id = params[:recipient_id]
     @destination_id = params[:destination_id]
-    @destination_type = params[:destination_type].in?(User::TYPE) ? params[:destination_type] : User.name
     @source_id = params[:source_id]
     @balance = params[:balance]
   end
@@ -24,14 +23,11 @@ class Api::V1::TransferBalanceService < Api::V1::BaseService
 
   private
 
-  attr_reader :params, :current_user_id, :recipient_id, :destination_id, :destination_type, :source_id, :balance
+  attr_reader :params, :current_user, :recipient_id, :destination_id, :source_id,
+              :balance
 
   def source
     @source ||= current_user.wallets.find_by!(id: source_id)
-  end
-
-  def current_user
-    @current_user ||= User.find_by!(id: current_user_id)
   end
 
   def destination
@@ -42,12 +38,16 @@ class Api::V1::TransferBalanceService < Api::V1::BaseService
     @recipient ||= destination_type.constantize.find_by!(id: recipient_id)
   end
 
+  def destination_type
+    @destination_type ||= params[:destination_type].in?(User::TYPE) ? params[:destination_type] : User.name
+  end
+
   def transaction_params
     {
-      balance: balance,
-      source: source,
-      destination: destination,
-      recipient: recipient,
+      balance:,
+      source:,
+      destination:,
+      recipient:,
       last_updater: current_user
     }
   end

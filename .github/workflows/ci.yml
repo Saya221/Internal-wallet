@@ -30,8 +30,7 @@ jobs:
 
     strategy:
       matrix:
-        rspec_type:
-          [controllers, forms, jobs, middlewares, models, serializers, services]
+        rspec_type: [controllers, middlewares, models, serializers, services]
 
     services:
       postgres:

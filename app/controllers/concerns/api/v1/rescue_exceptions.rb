@@ -63,7 +63,7 @@ module Api
           render json: Api::Error::UnauthorizedRequest.new(exception).to_hash, status:
         end
 
-        def render_query_canceled_response(exception, status: :bad_request)
+        def render_query_canceled_response(_exception, status: :bad_request)
           error = Api::BaseError.new I18n.t(:query_canceled, scope: %i[errors active_record])
           render json: error.to_hash, status:
         end
