@@ -3,9 +3,12 @@
 class User < ApplicationRecord
   acts_as_paranoid
 
+  TYPE = %w[Team Stock].freeze
+
   has_many :user_sessions, dependent: :destroy
 
-  has_one :wallet, as: :resourcable, dependent: :destroy
+  has_many :wallets, as: :resourcable, dependent: :destroy
+  has_many :transactions, foreign_key: :creator_id, dependent: :destroy
 
   enum role: %i[admin staff]
   enum status: %i[inactive active]

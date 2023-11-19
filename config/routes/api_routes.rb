@@ -7,10 +7,9 @@ module ApiRoutes
           post :login, to: "sessions#login"
           delete :logout, to: "sessions#logout"
 
-          resources :wallets, only: [] do
+          resources :wallets, only: %i[show] do
             collection do
-              get :balance
-              post :transfer
+              put :transfer
             end
           end
 

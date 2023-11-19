@@ -32,6 +32,9 @@ en:
       not_found:
         code: 1051
         message: Resourse is not found.
+      query_canceled:
+        code: 1052
+        message: Canceling statement due to statement timeout.
     params: # Request, Params, Controller, Action errors 1200 - 1299
       invalid:
         code: 1200

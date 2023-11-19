@@ -28,11 +28,12 @@ module Api
           JWT::DecodeError,
           with: :render_unauthorized_request_response
         )
+        rescue_from ActiveRecord::QueryCanceled, with: :render_query_canceled_response
 
         protected
 
         def render_invalid_params_response(status: :bad_request)
-          error = Api::BaseError.new I18n.t("errors.params.invalid")
+          error = Api::BaseError.new I18n.t :invalid, scope: %i[errors params]
           render json: error.to_hash, status:
         end
 
@@ -41,7 +42,7 @@ module Api
         end
 
         def render_existing_resource_response(_exception, status: :bad_request)
-          error = Api::BaseError.new I18n.t("errors.active_record.not_unique")
+          error = Api::BaseError.new I18n.t(:not_unique, scope: %i[errors active_record])
           render json: error.to_hash, status:
         end
 
@@ -60,6 +61,11 @@ module Api
         def render_unauthorized_request_response(exception, status: :unauthorized)
           exception = exception.try(:error) || exception
           render json: Api::Error::UnauthorizedRequest.new(exception).to_hash, status:
+        end
+
+        def render_query_canceled_response(exception, status: :bad_request)
+          error = Api::BaseError.new I18n.t(:query_canceled, scope: %i[errors active_record])
+          render json: error.to_hash, status:
         end
       end
     end

@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_16_172701) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_19_125502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "transactions", force: :cascade do |t|
+    t.decimal "balance", precision: 10, scale: 2, default: "0.0"
+    t.integer "transaction_type", default: 0
+    t.uuid "source_id"
+    t.uuid "destination_id"
+    t.uuid "recipient_id"
+    t.uuid "creator_id"
+    t.uuid "last_updater_id"
+    t.datetime "deleted_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creator_id"], name: "index_transactions_on_creator_id"
+    t.index ["destination_id"], name: "index_transactions_on_destination_id"
+    t.index ["last_updater_id"], name: "index_transactions_on_last_updater_id"
+    t.index ["recipient_id"], name: "index_transactions_on_recipient_id"
+    t.index ["source_id"], name: "index_transactions_on_source_id"
+  end
 
   create_table "user_sessions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "session_token"
